@@ -5,15 +5,14 @@
  */
 package com.fahadi.transactions.TransactionDemo.Entities;
 
-import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,34 +22,34 @@ import lombok.Setter;
  * @author developer
  */
 @Entity
-@Table(name="TBL_BOOK")
+@Table(name="TBL_CHAPTER")     
 @Getter
 @Setter
-public class Book implements Serializable {
+public class Chapter {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long book_id;
+    private Long id;
     @Column
-    private String name;    
+    private String chapterTitle;    
     @Column
-    private Double price;
+    private Integer startPage;
+    @Column
+    private Integer endPage;
     
-    @OneToMany(fetch = FetchType.LAZY,mappedBy="book")
-    private Set<Chapter> chapter;
-    
-    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="book_id", nullable=false)
+    private Book book;
     
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + book_id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
+        return "Chapter{" +
+                "id=" + id +
+                ", chapterTitle='" + chapterTitle + '\'' +
+                ", startPage =" + startPage +
+                ", endPage =" + endPage +
+                ", book_id =" + book.getBook_id() +
                 '}';
     }
-
-    
-    
     
 }
